@@ -14,17 +14,17 @@ function rangeSlider({parentsSelector, sliderSelector}) {
         buttonMin = slider.querySelector('.range-slider__btn--min'),
         buttonMax = slider.querySelector('.range-slider__btn--max'),
         lineBetweenButtons = slider.querySelector('.range-slider__line'),
-        min = inputMin.dataset.min,
-        max = inputMax.dataset.max,
+        minValue = inputMin.dataset.min,
+        maxValue = inputMax.dataset.max,
         widthRange = range.clientWidth,
-        step = widthRange / (max - min);
+        step = widthRange / (maxValue - minValue);
   
   let startMin = inputMin.value,
       startMax = inputMax.value;
       
   
-  changeStateButtonMin((startMin - min) * step);
-  changeStateButtonMax((startMax - min) * step);
+  changeStateButtonMax(startMax * step);
+  changeStateButtonMin(startMin * step);
   
   buttonMin.ondragstart = function() {
     return false;
@@ -75,8 +75,8 @@ function rangeSlider({parentsSelector, sliderSelector}) {
     
   function changeStateButtonMin(value) {
     let setLeft;
-    if (value < 0) {
-      setLeft = 0;
+    if (value < minValue * step) {
+      setLeft = minValue * step;
     } else {
       if (value <= buttonMax.offsetLeft) {
         setLeft = value;
@@ -84,7 +84,7 @@ function rangeSlider({parentsSelector, sliderSelector}) {
         setLeft = buttonMax.offsetLeft;
       }
     }
-  
+    
     buttonMin.style.left = setLeft + 'px';
     inputMin.value = Math.abs(Math.floor(setLeft / step));
   
@@ -94,8 +94,8 @@ function rangeSlider({parentsSelector, sliderSelector}) {
   function changeStateButtonMax(value) {
     let setLeft;
   
-    if (value > max * step) {
-      setLeft = max * step;
+    if (value > maxValue * step) {
+      setLeft = maxValue * step;
     } else {
       if (value >= buttonMin.offsetLeft) {
         setLeft = value;
