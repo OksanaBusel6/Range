@@ -37,23 +37,28 @@ function rangeSlider({parentsSelector, sliderSelector}) {
   buttons.forEach(btn => {
     btn.addEventListener('mousedown', (e) => {
       const target = e.target;
-     
+      target.classList.add('active');
+
       if(target === buttonMin) {
         document.addEventListener('mousemove', changeValueMin);
   
         range.addEventListener('mouseleave', () => {
           document.removeEventListener('mousemove', changeValueMin);
+          buttonMin.classList.remove('active');
         });
         range.addEventListener('mouseup', () => {
           document.removeEventListener('mousemove', changeValueMin);
+          buttonMin.classList.remove('active');
         });
       } else {
         document.addEventListener('mousemove', changeValueMax);
         range.addEventListener('mouseleave', () => {
           document.removeEventListener('mousemove', changeValueMax);
+          buttonMax.classList.remove('active');
         });
         range.addEventListener('mouseup', () => {
           document.removeEventListener('mousemove', changeValueMax);
+          buttonMax.classList.remove('active');
         });
       }
     });
